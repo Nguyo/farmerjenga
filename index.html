@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>JengaFarmer — FarmIQ Platform</title>
+  <meta name="description" content="Farm-to-table marketplace connecting Kenyan farmers, consumers and riders via AI-powered agriculture tools and M-Pesa escrow payments." />
+  <meta name="theme-color" content="#2E7D32" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- TOP BRAND BAR -->
+  <header class="top-brand">
+    <span class="brand-logo">🌱</span>
+    <span class="brand-name">JengaFarmer</span>
+    <span class="brand-tag">FarmIQ Platform</span>
+  </header>
+
+  <!-- PERSONA SWITCHER -->
+  <nav class="persona-nav" aria-label="Switch persona">
+    <button class="persona-btn active" onclick="switchPersona('farmer')" aria-label="Farmer view">🌾 Farmer</button>
+    <button class="persona-btn" onclick="switchPersona('consumer')" aria-label="Consumer view">🛒 Consumer</button>
+    <button class="persona-btn" onclick="switchPersona('rider')" aria-label="Rider view">🏍️ Rider</button>
+    <button class="persona-btn" onclick="switchPersona('aidoctor')" aria-label="AI Doctor view">🔬 AI Doctor</button>
+    <button class="persona-btn" onclick="switchPersona('delivery')" aria-label="Delivery confirmation view">📦 Delivery</button>
+  </nav>
+
+  <!-- ════════════════════════════════════ -->
+  <!--            FARMER SCREEN            -->
+  <!-- ════════════════════════════════════ -->
+  <main class="screen active" id="screen-farmer" role="main" aria-label="Farmer Dashboard">
+    <div class="farmer-header">
+      <div class="greeting">Good morning 🌤️</div>
+      <div class="name">Wanjiku Njoroge</div>
+      <div class="sub">Kiambu Farm · 3.2 acres</div>
+    </div>
+
+    <div class="scroll-area">
+      <!-- Weather -->
+      <div class="weather-widget">
+        <div class="weather-icon" aria-hidden="true">⛅</div>
+        <div class="weather-info">
+          <div class="weather-temp">24°C</div>
+          <div class="weather-desc">Partly cloudy · Nairobi</div>
+        </div>
+        <div class="weather-alert">Rain in 2 days</div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="section-title">Quick Actions</div>
+      <div class="quick-actions">
+        <button class="qa-btn" onclick="switchPersona('aidoctor')" aria-label="Scan plant with AI">
+          <div class="qa-icon">📸</div>
+          <div class="qa-label">Scan Plant</div>
+          <div class="qa-sub">AI diagnosis</div>
+        </button>
+        <button class="qa-btn" aria-label="Add a new crop">
+          <div class="qa-icon">🌽</div>
+          <div class="qa-label">Add Crop</div>
+          <div class="qa-sub">Register new</div>
+        </button>
+        <button class="qa-btn full" aria-label="Sell your produce">
+          <div class="qa-icon">💰</div>
+          <div style="flex:1; text-align:left;">
+            <div class="qa-label">Sell Produce</div>
+            <div class="qa-sub">Smart pricing active</div>
+          </div>
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
+
+      <!-- Tasks -->
+      <div class="section-title">Today's Tasks</div>
+      <div class="task-list" role="list">
+        <div class="task-card" role="listitem">
+          <div class="task-dot red" aria-label="Urgent"></div>
+          <div class="task-info">
+            <div class="task-title">Apply fungicide — Maize Plot B</div>
+            <div class="task-sub">AI detected early blight</div>
+          </div>
+          <span class="task-badge badge-red">Urgent</span>
+        </div>
+        <div class="task-card" role="listitem">
+          <div class="task-dot orange" aria-label="Due today"></div>
+          <div class="task-info">
+            <div class="task-title">Irrigate Tomatoes</div>
+            <div class="task-sub">Soil moisture 28% — low</div>
+          </div>
+          <span class="task-badge badge-orange">Today</span>
+        </div>
+        <div class="task-card" role="listitem">
+          <div class="task-dot green" aria-label="Ready"></div>
+          <div class="task-info">
+            <div class="task-title">Harvest Kale (Row 3–7)</div>
+            <div class="task-sub">Optimal window: 3 days</div>
+          </div>
+          <span class="task-badge badge-green">Ready</span>
+        </div>
+      </div>
+
+      <!-- Earnings -->
+      <div class="earnings-bar">
+        <div>
+          <div class="earnings-label">This Month's Earnings</div>
+          <div class="earnings-amount">KSh 42,800</div>
+        </div>
+        <div class="earnings-change">↑ 18%</div>
+      </div>
+
+      <!-- Order Flow -->
+      <div class="flow-section">
+        <div class="flow-title">Order flow status</div>
+        <div class="flow-steps">
+          <span class="flow-step fs-green">Listed</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-blue">Accepted</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-orange">Rider En Route</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-green">M-Pesa Released</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav" aria-label="Farmer navigation">
+      <div class="nav-item active"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+      <div class="nav-item"><div class="nav-icon">🌱</div><div class="nav-label">My Farm</div></div>
+      <div class="nav-item"><div class="nav-icon">🛒</div><div class="nav-label">Market</div></div>
+      <div class="nav-item"><div class="nav-icon">📦</div><div class="nav-label">Orders</div></div>
+      <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">Profile</div></div>
+    </nav>
+  </main>
+
+  <!-- ════════════════════════════════════ -->
+  <!--           CONSUMER SCREEN           -->
+  <!-- ════════════════════════════════════ -->
+  <main class="screen" id="screen-consumer" role="main" aria-label="Consumer Marketplace">
+    <div class="farmer-header" style="background:#1B5E20; padding-bottom:18px;">
+      <div class="greeting">Farm-fresh, delivered to you 🥬</div>
+      <div class="name">Marketplace</div>
+    </div>
+
+    <div class="scroll-area">
+      <div class="search-bar" role="search">
+        <span aria-hidden="true">🔍</span>
+        <input type="search" placeholder="Search kales, tomatoes, maize..." aria-label="Search produce" />
+      </div>
+
+      <div class="cat-filter" role="list" aria-label="Category filters">
+        <div class="cat-chip active" role="listitem" tabindex="0">All</div>
+        <div class="cat-chip" role="listitem" tabindex="0">🥬 Vegetables</div>
+        <div class="cat-chip" role="listitem" tabindex="0">🌽 Grains</div>
+        <div class="cat-chip" role="listitem" tabindex="0">🍅 Fruits</div>
+        <div class="cat-chip" role="listitem" tabindex="0">🧅 Roots</div>
+      </div>
+
+      <div style="padding:0 16px 8px; display:flex; justify-content:space-between; align-items:center;">
+        <div class="section-title" style="padding:0;">Featured Produce</div>
+        <div style="font-size:11px; color:var(--green-700); font-weight:600; cursor:pointer;">See all →</div>
+      </div>
+
+      <div class="produce-grid">
+        <div class="produce-card">
+          <div class="produce-img teal" aria-label="Sukuma Wiki">🥬</div>
+          <div class="produce-info">
+            <div class="produce-name">Sukuma Wiki</div>
+            <div class="produce-farm">Wanjiku Farm, Kiambu</div>
+            <div class="produce-price">KSh 45/kg</div>
+            <span class="produce-tag">🌿 Organic</span>
+          </div>
+        </div>
+        <div class="produce-card">
+          <div class="produce-img amber" aria-label="Roma Tomatoes">🍅</div>
+          <div class="produce-info">
+            <div class="produce-name">Roma Tomatoes</div>
+            <div class="produce-farm">Mwangi Farm, Muranga</div>
+            <div class="produce-price">KSh 80/kg</div>
+            <span class="produce-tag">✓ Verified</span>
+          </div>
+        </div>
+        <div class="produce-card">
+          <div class="produce-img purple" aria-label="Red Onions">🧅</div>
+          <div class="produce-info">
+            <div class="produce-name">Red Onions</div>
+            <div class="produce-farm">Kamau Farm, Nanyuki</div>
+            <div class="produce-price">KSh 60/kg</div>
+            <span class="produce-tag">🚜 Farm-to-Plate</span>
+          </div>
+        </div>
+        <div class="produce-card">
+          <div class="produce-img" style="background:#E8F5E9;" aria-label="Sweet Maize">🌽</div>
+          <div class="produce-info">
+            <div class="produce-name">Sweet Maize</div>
+            <div class="produce-farm">Achieng Farm, Kisumu</div>
+            <div class="produce-price">KSh 30/cob</div>
+            <span class="produce-tag">⭐ Top Rated</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mpesa-badge">
+        <div class="mpesa-icon">🔒</div>
+        <div>
+          <div class="mpesa-text">M-Pesa Escrow Protection</div>
+          <div class="mpesa-sub">Pay safely — released on delivery confirmation</div>
+        </div>
+        <div class="escrow-tag">Secure</div>
+      </div>
+
+      <div class="flow-section">
+        <div class="flow-title">Traceability — your last order</div>
+        <div class="flow-steps">
+          <span class="flow-step fs-green">Harvested Jun 3</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-blue">Packed Jun 4</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-orange">In transit</span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="bottom-nav" aria-label="Consumer navigation">
+      <div class="nav-item active"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+      <div class="nav-item"><div class="nav-icon">🔍</div><div class="nav-label">Browse</div></div>
+      <div class="nav-item"><div class="nav-icon">🛒</div><div class="nav-label">Cart</div></div>
+      <div class="nav-item"><div class="nav-icon">📦</div><div class="nav-label">Orders</div></div>
+      <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">Me</div></div>
+    </nav>
+  </main>
+
+  <!-- ════════════════════════════════════ -->
+  <!--             RIDER SCREEN            -->
+  <!-- ════════════════════════════════════ -->
+  <main class="screen" id="screen-rider" role="main" aria-label="Rider Job Board">
+    <div class="rider-header">
+      <div class="greeting">Ready for pickups?</div>
+      <div class="name">Brian Otieno — Rider</div>
+    </div>
+
+    <div class="scroll-area">
+      <div class="rider-stats">
+        <div class="rider-stat"><div class="val">12</div><div class="lbl">Jobs done</div></div>
+        <div class="rider-stat"><div class="val" style="color:var(--orange);">2</div><div class="lbl">Available</div></div>
+        <div class="rider-stat"><div class="val">KSh 3.2k</div><div class="lbl">Today</div></div>
+      </div>
+
+      <div class="section-title" style="margin-top:20px;">Available Jobs</div>
+
+      <div class="cold-chain-alert" role="alert">
+        <div class="cold-icon">🌡️</div>
+        <div>
+          <div class="cold-text">Cold Chain Alert</div>
+          <div class="cold-sub">Tomatoes (Order #487) — must deliver within 4 hrs</div>
+        </div>
+      </div>
+
+      <div class="job-card">
+        <div class="job-header">
+          <div>
+            <div style="font-size:14px; font-weight:700;">Order #492 — Kale Bundle</div>
+            <div style="font-size:11px; color:var(--text-3);">Pickup: Wanjiku Farm, Kiambu</div>
+          </div>
+          <div class="job-distance">4.2 km</div>
+        </div>
+        <div class="job-route">
+          <div class="job-dot-from"></div>
+          <span>Kiambu Farm</span>
+          <span class="job-arrow">→</span>
+          <div class="job-dot-to"></div>
+          <span>Westlands, NBI</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-2); margin-bottom:10px;">
+          Expected payout: <strong style="color:var(--green-700);">KSh 280</strong>
+        </div>
+        <div class="job-actions">
+          <button class="btn-accept" onclick="switchPersona('delivery')">✓ Accept</button>
+          <button class="btn-reject">✕ Skip</button>
+        </div>
+      </div>
+
+      <div class="job-card">
+        <div class="job-header">
+          <div>
+            <div style="font-size:14px; font-weight:700;">Order #488 — Mixed Veg</div>
+            <div style="font-size:11px; color:var(--text-3);">Pickup: Mwangi Farm, Muranga</div>
+          </div>
+          <div class="job-distance">8.7 km</div>
+        </div>
+        <div class="job-route">
+          <div class="job-dot-from"></div>
+          <span>Muranga</span>
+          <span class="job-arrow">→</span>
+          <div class="job-dot-to"></div>
+          <span>Karen, Nairobi</span>
+        </div>
+        <div style="font-size:12px; color:var(--text-2); margin-bottom:10px;">
+          Expected payout: <strong style="color:var(--green-700);">KSh 520</strong>
+        </div>
+        <div class="job-actions">
+          <button class="btn-accept">✓ Accept</button>
+          <button class="btn-reject">✕ Skip</button>
+        </div>
+      </div>
+    </div>
+
+    <nav class="bottom-nav" aria-label="Rider navigation">
+      <div class="nav-item active"><div class="nav-icon">🏠</div><div class="nav-label">Jobs</div></div>
+      <div class="nav-item"><div class="nav-icon">🗺️</div><div class="nav-label">Map</div></div>
+      <div class="nav-item"><div class="nav-icon">📱</div><div class="nav-label">Active</div></div>
+      <div class="nav-item"><div class="nav-icon">💳</div><div class="nav-label">Earnings</div></div>
+      <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">Profile</div></div>
+    </nav>
+  </main>
+
+  <!-- ════════════════════════════════════ -->
+  <!--           AI DOCTOR SCREEN          -->
+  <!-- ════════════════════════════════════ -->
+  <main class="screen" id="screen-aidoctor" role="main" aria-label="AI Plant Doctor">
+    <div class="ai-header">
+      <div class="ai-title">🔬 AI Plant Doctor</div>
+      <div class="ai-sub">Point camera at affected leaves for instant diagnosis</div>
+    </div>
+
+    <div class="scroll-area">
+      <div class="camera-frame" role="img" aria-label="Camera scanning viewfinder">
+        <div class="scan-line"></div>
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+        <div style="font-size:48px;">🌿</div>
+        <div class="scan-hint">Scanning... align plant in frame</div>
+      </div>
+
+      <div class="diagnosis-card">
+        <div class="diag-header">
+          <div>
+            <div style="font-size:11px; color:var(--text-3); margin-bottom:2px;">Last scan result</div>
+            <div class="diag-name">Early Blight — Alternaria solani</div>
+          </div>
+          <div class="confidence-badge">93% match</div>
+        </div>
+        <div class="diag-severity">
+          <div class="severity-dot"></div>
+          <span>Moderate severity · Maize crop detected</span>
+        </div>
+        <div style="font-size:12px; font-weight:700; color:var(--text-2); margin-bottom:8px;">Recommended Treatment:</div>
+        <div class="treatment-list">
+          <div class="treatment-item">Apply Mancozeb fungicide (2.5g/L) every 7 days</div>
+          <div class="treatment-item">Remove and destroy affected leaves immediately</div>
+          <div class="treatment-item">Improve air circulation — reduce plant density</div>
+          <div class="treatment-item">Avoid overhead irrigation, use drip instead</div>
+        </div>
+      </div>
+
+      <button class="cta-buy" onclick="switchPersona('consumer')">🛒 Buy Mancozeb in Marketplace →</button>
+
+      <div class="flow-section" style="margin-top:10px;">
+        <div class="flow-title">Proactive alerts triggered</div>
+        <div class="flow-steps">
+          <span class="flow-step" style="background:var(--red-light); color:var(--red);">Blight Detected</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-orange">Harvest Updated</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-green">Price Adjusted</span>
+        </div>
+      </div>
+    </div>
+
+    <nav class="bottom-nav" aria-label="AI Doctor navigation">
+      <div class="nav-item" onclick="switchPersona('farmer')"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+      <div class="nav-item"><div class="nav-icon">🌱</div><div class="nav-label">My Farm</div></div>
+      <div class="nav-item active"><div class="nav-icon">🔬</div><div class="nav-label">AI Doctor</div></div>
+      <div class="nav-item" onclick="switchPersona('consumer')"><div class="nav-icon">🛒</div><div class="nav-label">Buy Input</div></div>
+      <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">Profile</div></div>
+    </nav>
+  </main>
+
+  <!-- ════════════════════════════════════ -->
+  <!--          DELIVERY SCREEN            -->
+  <!-- ════════════════════════════════════ -->
+  <main class="screen" id="screen-delivery" role="main" aria-label="Delivery Confirmation">
+    <div class="farmer-header" style="background:var(--green-900); padding-bottom:18px;">
+      <div class="greeting">Order #492 · Final Step</div>
+      <div class="name">Confirm Delivery</div>
+      <div class="sub">Scan QR or enter OTP to release payment</div>
+    </div>
+
+    <div class="scroll-area">
+      <!-- Status Bar -->
+      <div style="margin:14px 16px; background:var(--surface); border-radius:var(--radius); border:1px solid var(--border); padding:14px;">
+        <div style="font-size:12px; font-weight:700; color:var(--text-2); margin-bottom:12px;">DELIVERY STATUS</div>
+        <div style="display:flex; align-items:center; justify-content:space-between;" role="progressbar" aria-label="Delivery progress: step 3 of 4">
+          <div class="status-step done"><div class="status-circle done">✓</div><div class="status-label">Confirmed</div></div>
+          <div class="status-line done"></div>
+          <div class="status-step done"><div class="status-circle done">✓</div><div class="status-label">Picked up</div></div>
+          <div class="status-line active"></div>
+          <div class="status-step active"><div class="status-circle active">📍</div><div class="status-label active-lbl">Delivering</div></div>
+          <div class="status-line"></div>
+          <div class="status-step"><div class="status-circle pending">🔒</div><div class="status-label pending-lbl">Delivered</div></div>
+        </div>
+      </div>
+
+      <!-- OTP Entry -->
+      <div class="otp-section" id="otp-section">
+        <div class="otp-icon">🔐</div>
+        <div class="otp-title">Enter Delivery OTP</div>
+        <div class="otp-sub">Ask the customer for their 4-digit confirmation code</div>
+        <div class="otp-boxes">
+          <input class="otp-box" maxlength="1" type="tel" id="o1" aria-label="OTP digit 1" oninput="moveOtp(this,'o2')" />
+          <input class="otp-box" maxlength="1" type="tel" id="o2" aria-label="OTP digit 2" oninput="moveOtp(this,'o3')" />
+          <input class="otp-box" maxlength="1" type="tel" id="o3" aria-label="OTP digit 3" oninput="moveOtp(this,'o4')" />
+          <input class="otp-box" maxlength="1" type="tel" id="o4" aria-label="OTP digit 4" oninput="checkOtp()" />
+        </div>
+        <button class="otp-confirm" onclick="confirmDelivery()">Confirm &amp; Release Payment</button>
+      </div>
+
+      <!-- Success -->
+      <div class="success-anim" id="success-section" role="status" aria-live="polite">
+        <div style="font-size:48px;">✅</div>
+        <div class="success-title">Payment Released!</div>
+        <div class="success-sub">KSh 850 sent to farmer via M-Pesa escrow</div>
+        <div style="font-size:11px; color:var(--green-700); font-weight:600; margin-top:4px;">Your cut: KSh 280 — credited now</div>
+      </div>
+
+      <div class="mpesa-badge" style="margin-top:10px;">
+        <div class="mpesa-icon">📱</div>
+        <div>
+          <div class="mpesa-text">M-Pesa Escrow</div>
+          <div class="mpesa-sub">Funds held safely — released on OTP confirmation</div>
+        </div>
+        <div class="escrow-tag">Protected</div>
+      </div>
+    </div>
+
+    <nav class="bottom-nav" aria-label="Delivery navigation">
+      <div class="nav-item" onclick="switchPersona('rider')"><div class="nav-icon">←</div><div class="nav-label">Jobs</div></div>
+      <div class="nav-item active"><div class="nav-icon">📦</div><div class="nav-label">Active</div></div>
+      <div class="nav-item"><div class="nav-icon">🗺️</div><div class="nav-label">Map</div></div>
+      <div class="nav-item"><div class="nav-icon">📞</div><div class="nav-label">Contact</div></div>
+      <div class="nav-item"><div class="nav-icon">💳</div><div class="nav-label">Pay</div></div>
+    </nav>
+  </main>
+
+</div><!-- /app -->
+
+<script src="app.js"></script>
+</body>
+</html>
