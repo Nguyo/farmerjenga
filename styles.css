@@ -1,611 +1,599 @@
-/* ─── RESET & VARIABLES ─────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html
 
-:root {
-  --green-900: #1B4D1D;
-  --green-700: #2E7D32;
-  --green-500: #4CAF50;
-  --green-300: #A5D6A7;
-  --green-100: #E8F5E9;
-  --orange:    #FB8C00;
-  --orange-lt: #FFF3E0;
-  --red:       #E53935;
-  --red-lt:    #FFEBEE;
-  --yellow:    #FDD835;
-  --bg:        #F4F9F4;
-  --surface:   #FFFFFF;
-  --text-1:    #1A2E1B;
-  --text-2:    #4A6B4C;
-  --text-3:    #7A9C7C;
-  --border:    rgba(46,125,50,0.14);
-  --shadow:    0 2px 12px rgba(27,77,29,0.08);
-  --radius:    16px;
-  --radius-sm: 10px;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>JengaFarmer — FarmIQ Platform</title>
+  <meta name="description" content="Farm-to-table marketplace connecting Kenyan farmers, consumers and riders via AI-powered agriculture tools and M-Pesa escrow payments." />
+  <meta name="theme-color" content="#2E7D32" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green-900:#1B4D1D;--green-700:#2E7D32;--green-500:#4CAF50;
+  --green-300:#A5D6A7;--green-100:#E8F5E9;
+  --orange:#FB8C00;--orange-lt:#FFF3E0;
+  --red:#E53935;--red-lt:#FFEBEE;
+  --bg:#F4F9F4;--surface:#FFFFFF;
+  --text-1:#1A2E1B;--text-2:#4A6B4C;--text-3:#7A9C7C;
+  --border:rgba(46,125,50,0.14);
+  --shadow:0 2px 12px rgba(27,77,29,0.08);
+  --radius:16px;--radius-sm:10px;
 }
+html,body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text-1);height:100%;overflow-x:hidden}
+.app{max-width:480px;min-height:100vh;margin:0 auto;display:flex;flex-direction:column;background:var(--bg);box-shadow:0 0 40px rgba(0,0,0,0.06)}
+.top-brand{background:var(--green-700);padding:12px 20px;display:flex;align-items:center;gap:10px;color:#fff;flex-shrink:0}
+.brand-logo{font-size:22px}.brand-name{font-size:17px;font-weight:700;letter-spacing:-0.3px}.brand-tag{font-size:11px;opacity:.75;margin-left:auto}
+.persona-nav{display:flex;gap:6px;padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.persona-nav::-webkit-scrollbar{display:none}
+.persona-btn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:transparent;color:var(--text-2);white-space:nowrap;transition:all .18s ease;font-family:inherit}
+.persona-btn:hover{background:var(--green-100);border-color:var(--green-300)}
+.persona-btn.active{background:var(--green-700);color:#fff;border-color:var(--green-700)}
+.screen{display:none;flex-direction:column;flex:1;min-height:0}
+.screen.active{display:flex}
+.scroll-area{overflow-y:auto;flex:1;padding-bottom:12px;scrollbar-width:thin;scrollbar-color:var(--green-300) transparent}
+.farmer-header{background:var(--green-700);padding:20px 18px 28px;color:#fff;position:relative;overflow:hidden;flex-shrink:0}
+.farmer-header::before{content:'';position:absolute;right:-30px;top:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.06);pointer-events:none}
+.farmer-header .greeting{font-size:13px;opacity:.8;margin-bottom:2px}
+.farmer-header .name{font-size:20px;font-weight:700}
+.farmer-header .sub{font-size:12px;opacity:.7;margin-top:2px}
+.weather-widget{margin:-16px 16px 0;background:var(--surface);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;border:1px solid var(--border)}
+.weather-icon{font-size:32px}.weather-info{flex:1}.weather-temp{font-size:22px;font-weight:700}.weather-desc{font-size:12px;color:var(--text-2)}
+.weather-alert{background:var(--orange-lt);color:var(--orange);font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px}
+.section-title{font-size:11px;font-weight:700;color:var(--text-2);text-transform:uppercase;letter-spacing:.7px;padding:16px 18px 8px}
+.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
+.qa-btn{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;flex-direction:column;gap:6px;cursor:pointer;transition:all .18s ease;text-align:left;font-family:inherit}
+.qa-btn:hover{background:var(--green-100);border-color:var(--green-300);transform:translateY(-1px)}
+.qa-btn.full{grid-column:1/-1;flex-direction:row;align-items:center;background:var(--green-700);color:#fff;border-color:var(--green-700)}
+.qa-btn.full:hover{background:var(--green-900);border-color:var(--green-900);transform:translateY(-1px)}
+.qa-icon{font-size:22px}.qa-label{font-size:13px;font-weight:600;color:var(--text-1)}
+.qa-btn.full .qa-label{color:#fff}.qa-sub{font-size:11px;color:var(--text-3)}
+.qa-btn.full .qa-sub{color:rgba(255,255,255,.75)}
+.task-list{display:flex;flex-direction:column;gap:8px;padding:0 16px}
+.task-card{background:var(--surface);border-radius:var(--radius-sm);padding:12px 14px;border:1px solid var(--border);display:flex;align-items:center;gap:12px;transition:box-shadow .15s}
+.task-card:hover{box-shadow:var(--shadow)}
+.task-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.task-dot.green{background:var(--green-500)}.task-dot.orange{background:var(--orange)}.task-dot.red{background:var(--red)}
+.task-info{flex:1}.task-title{font-size:13px;font-weight:600}.task-sub{font-size:11px;color:var(--text-3);margin-top:2px}
+.task-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap}
+.badge-green{background:var(--green-100);color:var(--green-700)}
+.badge-orange{background:var(--orange-lt);color:var(--orange)}
+.badge-red{background:var(--red-lt);color:var(--red)}
+.earnings-bar{margin:12px 16px;background:var(--green-900);border-radius:var(--radius);padding:16px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.earnings-label{font-size:12px;opacity:.7}.earnings-amount{font-size:22px;font-weight:700}
+.earnings-change{font-size:12px;background:rgba(165,214,167,.2);color:var(--green-300);padding:4px 10px;border-radius:10px;font-weight:600}
+.flow-section{background:var(--surface);border-radius:var(--radius);margin:0 16px 10px;padding:14px;border:1px solid var(--border)}
+.flow-title{font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:10px}
+.flow-steps{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.flow-step{font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px}
+.fs-green{background:var(--green-100);color:var(--green-700)}
+.fs-orange{background:var(--orange-lt);color:var(--orange)}
+.fs-blue{background:#E3F2FD;color:#1565C0}
+.flow-arrow{font-size:10px;color:var(--text-3)}
+.search-bar{display:flex;align-items:center;gap:10px;background:var(--surface);border:1.5px solid var(--border);border-radius:30px;padding:10px 16px;margin:14px 16px 0;transition:border-color .15s}
+.search-bar:focus-within{border-color:var(--green-500)}
+.search-bar span{font-size:16px}
+.search-bar input{border:none;outline:none;flex:1;font-size:13px;font-family:inherit;background:transparent;color:var(--text-1)}
+.cat-filter{display:flex;gap:8px;padding:12px 16px;overflow-x:auto;scrollbar-width:none}
+.cat-filter::-webkit-scrollbar{display:none}
+.cat-chip{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--surface);border:1.5px solid var(--border);color:var(--text-2);cursor:pointer;transition:all .15s;user-select:none}
+.cat-chip:hover,.cat-chip.active{background:var(--green-100);border-color:var(--green-500);color:var(--green-700)}
+.produce-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px}
+.produce-card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;transition:transform .15s,box-shadow .15s;cursor:pointer}
+.produce-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.produce-img{width:100%;height:100px;display:flex;align-items:center;justify-content:center;font-size:40px}
+.produce-img.teal{background:#E0F2F1}.produce-img.amber{background:#FFF8E1}.produce-img.purple{background:#EDE7F6}
+.produce-info{padding:10px 12px}
+.produce-name{font-size:13px;font-weight:700}.produce-farm{font-size:11px;color:var(--text-3)}
+.produce-price{font-size:14px;font-weight:700;color:var(--green-700);margin-top:4px}
+.produce-tag{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;background:var(--green-100);color:var(--green-700);margin-top:4px}
+.mpesa-badge{display:flex;align-items:center;gap:8px;background:var(--green-100);border:1.5px solid var(--green-300);border-radius:var(--radius-sm);padding:10px 14px;margin:12px 16px 10px}
+.mpesa-icon{font-size:18px}.mpesa-text{font-size:12px;font-weight:600;color:var(--green-700)}.mpesa-sub{font-size:10px;color:var(--text-3)}
+.escrow-tag{margin-left:auto;font-size:10px;font-weight:700;background:var(--green-700);color:#fff;padding:4px 10px;border-radius:10px}
+.rider-header{background:var(--green-900);padding:20px 18px 24px;color:#fff;flex-shrink:0}
+.rider-header .greeting{font-size:12px;opacity:.7}.rider-header .name{font-size:20px;font-weight:700}
+.rider-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:-14px 16px 0}
+.rider-stat{background:var(--surface);border-radius:var(--radius-sm);padding:12px;text-align:center;box-shadow:var(--shadow);border:1px solid var(--border)}
+.rider-stat .val{font-size:16px;font-weight:700;color:var(--green-700)}.rider-stat .lbl{font-size:10px;color:var(--text-3);margin-top:2px}
+.cold-chain-alert{margin:12px 16px 10px;background:var(--orange-lt);border:1.5px solid var(--orange);border-radius:var(--radius-sm);padding:12px 14px;display:flex;align-items:center;gap:10px}
+.cold-icon{font-size:20px}.cold-text{font-size:12px;font-weight:600;color:var(--orange)}.cold-sub{font-size:11px;color:var(--text-2)}
+.job-card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);margin:0 16px 10px;padding:14px;transition:box-shadow .15s}
+.job-card:hover{box-shadow:var(--shadow)}
+.job-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.job-distance{font-size:12px;font-weight:700;color:var(--green-700)}
+.job-route{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--text-2);margin-bottom:12px;flex-wrap:wrap}
+.job-dot-from{width:8px;height:8px;border-radius:50%;background:var(--green-500);flex-shrink:0}
+.job-dot-to{width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0}
+.job-arrow{color:var(--text-3)}.job-actions{display:flex;gap:8px}
+.btn-accept{flex:1;background:var(--green-700);color:#fff;border:none;border-radius:30px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s}
+.btn-accept:hover{background:var(--green-900)}
+.btn-reject{flex:1;background:transparent;color:var(--red);border:1.5px solid var(--red);border-radius:30px;padding:10px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.btn-reject:hover{background:var(--red-lt)}
+.ai-header{background:var(--green-900);padding:20px 18px;color:#fff;flex-shrink:0}
+.ai-title{font-size:18px;font-weight:700}.ai-sub{font-size:12px;opacity:.75;margin-top:2px}
+.camera-frame{margin:14px 16px;background:#0d1f0e;border-radius:var(--radius);height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;border:2px solid var(--green-500)}
+.scan-line{width:80%;height:2px;background:var(--green-500);position:absolute;animation:scan 2s ease-in-out infinite;box-shadow:0 0 6px var(--green-500)}
+@keyframes scan{0%,100%{top:20%}50%{top:80%}}
+.corner{position:absolute;width:20px;height:20px;border-color:var(--green-300);border-style:solid;border-width:0}
+.corner.tl{top:12px;left:12px;border-top-width:3px;border-left-width:3px}
+.corner.tr{top:12px;right:12px;border-top-width:3px;border-right-width:3px}
+.corner.bl{bottom:12px;left:12px;border-bottom-width:3px;border-left-width:3px}
+.corner.br{bottom:12px;right:12px;border-bottom-width:3px;border-right-width:3px}
+.scan-hint{font-size:12px;color:rgba(255,255,255,.55);margin-top:10px}
+.diagnosis-card{margin:0 16px 12px;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:16px}
+.diag-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.diag-name{font-size:15px;font-weight:700}
+.confidence-badge{background:var(--green-100);color:var(--green-700);font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;white-space:nowrap}
+.diag-severity{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-2);margin-bottom:12px}
+.severity-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0}
+.treatment-list{display:flex;flex-direction:column;gap:6px}
+.treatment-item{display:flex;gap:8px;font-size:12px;color:var(--text-1)}
+.treatment-item::before{content:'→';color:var(--green-500);font-weight:700;flex-shrink:0}
+.cta-buy{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 16px;width:calc(100% - 32px);background:var(--orange);color:#fff;border:none;border-radius:30px;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s}
+.cta-buy:hover{background:#E65100}
+.status-step{display:flex;flex-direction:column;align-items:center;gap:4px}
+.status-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+.status-circle.done{background:var(--green-500);color:#fff}
+.status-circle.active{background:var(--orange);color:#fff}
+.status-circle.pending{background:var(--bg);border:2px solid var(--border)}
+.status-label{font-size:9px;font-weight:600;color:var(--text-3);text-align:center}
+.active-lbl{color:var(--orange)}.pending-lbl{color:var(--text-3)}
+.status-line{flex:1;height:2px;background:var(--border);margin-bottom:14px}
+.status-line.done{background:var(--green-300)}.status-line.active{background:var(--orange)}
+.otp-section{padding:20px 20px 8px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.otp-icon{font-size:40px}.otp-title{font-size:18px;font-weight:700;text-align:center}
+.otp-sub{font-size:12px;color:var(--text-2);text-align:center}
+.otp-boxes{display:flex;gap:10px}
+.otp-box{width:52px;height:58px;border-radius:12px;border:2px solid var(--border);background:var(--surface);font-size:22px;font-weight:700;text-align:center;font-family:inherit;color:var(--text-1);transition:border-color .15s}
+.otp-box:focus{border-color:var(--green-500);outline:none;box-shadow:0 0 0 3px rgba(76,175,80,.15)}
+.otp-confirm{width:100%;background:var(--green-700);color:#fff;border:none;border-radius:30px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .15s}
+.otp-confirm:hover{background:var(--green-900)}
+.success-anim{display:none;flex-direction:column;align-items:center;gap:8px;background:var(--green-100);border-radius:var(--radius);padding:24px 20px;margin:12px 16px;text-align:center;animation:fadeIn .4s ease}
+.success-anim.show{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.success-title{font-size:17px;font-weight:700;color:var(--green-700)}.success-sub{font-size:12px;color:var(--text-2)}
+.bottom-nav{display:flex;background:var(--surface);border-top:1px solid var(--border);padding:8px 0 12px;flex-shrink:0}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 0;transition:opacity .15s}
+.nav-item:hover{opacity:.75}
+.nav-icon{font-size:20px;transition:transform .15s}.nav-label{font-size:10px;font-weight:600;color:var(--text-3)}
+.nav-item.active .nav-label{color:var(--green-700)}.nav-item.active .nav-icon{transform:scale(1.1)}
+@media(min-width:520px){.app{border-left:1px solid var(--border);border-right:1px solid var(--border)}}
+@media(max-width:360px){.quick-actions{grid-template-columns:1fr}.produce-grid{grid-template-columns:1fr}.rider-stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
 
-html, body {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text-1);
-  height: 100%;
-  overflow-x: hidden;
-}
+  <header class="top-brand">
+    <span class="brand-logo">🌱</span>
+    <span class="brand-name">JengaFarmer</span>
+    <span class="brand-tag">FarmIQ Platform</span>
+  </header>
 
-/* ─── APP SHELL ──────────────────────────────────────────── */
-.app {
-  max-width: 480px;
-  min-height: 100vh;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  background: var(--bg);
-  box-shadow: 0 0 40px rgba(0,0,0,0.06);
-}
+  <nav class="persona-nav">
+    <button class="persona-btn active" onclick="switchPersona('farmer')">🌾 Farmer</button>
+    <button class="persona-btn" onclick="switchPersona('consumer')">🛒 Consumer</button>
+    <button class="persona-btn" onclick="switchPersona('rider')">🏍️ Rider</button>
+    <button class="persona-btn" onclick="switchPersona('aidoctor')">🔬 AI Doctor</button>
+    <button class="persona-btn" onclick="switchPersona('delivery')">📦 Delivery</button>
+  </nav>
 
-/* ─── TOP BRAND ──────────────────────────────────────────── */
-.top-brand {
-  background: var(--green-700);
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #fff;
-  flex-shrink: 0;
-}
-.brand-logo { font-size: 22px; }
-.brand-name { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; }
-.brand-tag  { font-size: 11px; opacity: 0.75; margin-left: auto; }
+  <!-- ═══════════════ FARMER ═══════════════ -->
+  <main class="screen active" id="screen-farmer">
+    <div class="farmer-header">
+      <div class="greeting">Good morning 🌤️</div>
+      <div class="name">Wanjiku Njoroge</div>
+      <div class="sub">Kiambu Farm · 3.2 acres</div>
+    </div>
+    <div class="scroll-area">
+      <div class="weather-widget">
+        <div class="weather-icon">⛅</div>
+        <div class="weather-info">
+          <div class="weather-temp">24°C</div>
+          <div class="weather-desc">Partly cloudy · Nairobi</div>
+        </div>
+        <div class="weather-alert">Rain in 2 days</div>
+      </div>
+      <div class="section-title">Quick Actions</div>
+      <div class="quick-actions">
+        <button class="qa-btn" onclick="switchPersona('aidoctor')">
+          <div class="qa-icon">📸</div>
+          <div class="qa-label">Scan Plant</div>
+          <div class="qa-sub">AI diagnosis</div>
+        </button>
+        <button class="qa-btn">
+          <div class="qa-icon">🌽</div>
+          <div class="qa-label">Add Crop</div>
+          <div class="qa-sub">Register new</div>
+        </button>
+        <button class="qa-btn full">
+          <div class="qa-icon">💰</div>
+          <div style="flex:1;text-align:left">
+            <div class="qa-label">Sell Produce</div>
+            <div class="qa-sub">Smart pricing active</div>
+          </div>
+          <span>→</span>
+        </button>
+      </div>
+      <div class="section-title">Today's Tasks</div>
+      <div class="task-list">
+        <div class="task-card">
+          <div class="task-dot red"></div>
+          <div class="task-info">
+            <div class="task-title">Apply fungicide — Maize Plot B</div>
+            <div class="task-sub">AI detected early blight</div>
+          </div>
+          <span class="task-badge badge-red">Urgent</span>
+        </div>
+        <div class="task-card">
+          <div class="task-dot orange"></div>
+          <div class="task-info">
+            <div class="task-title">Irrigate Tomatoes</div>
+            <div class="task-sub">Soil moisture 28% — low</div>
+          </div>
+          <span class="task-badge badge-orange">Today</span>
+        </div>
+        <div class="task-card">
+          <div class="task-dot green"></div>
+          <div class="task-info">
+            <div class="task-title">Harvest Kale (Row 3–7)</div>
+            <div class="task-sub">Optimal window: 3 days</div>
+          </div>
+          <span class="task-badge badge-green">Ready</span>
+        </div>
+      </div>
+      <div class="earnings-bar">
+        <div>
+          <div class="earnings-label">This Month's Earnings</div>
+          <div class="earnings-amount">KSh 42,800</div>
+        </div>
+        <div class="earnings-change">↑ 18%</div>
+      </div>
+      <div class="flow-section">
+        <div class="flow-title">Order flow status</div>
+        <div class="flow-steps">
+          <span class="flow-step fs-green">Listed</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-blue">Accepted</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-orange">Rider En Route</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-green">M-Pesa Released</span>
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item active"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+      <div class="nav-item"><div class="nav-icon">🌱</div><div class="nav-label">My Farm</div></div>
+      <div class="nav-item"><div class="nav-icon">🛒</div><div class="nav-label">Market</div></div>
+      <div class="nav-item"><div class="nav-icon">📦</div><div class="nav-label">Orders</div></div>
+      <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">Profile</div></div>
+    </nav>
+  </main>
 
-/* ─── PERSONA NAV ────────────────────────────────────────── */
-.persona-nav {
-  display: flex;
-  gap: 6px;
-  padding: 12px 14px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  overflow-x: auto;
-  scrollbar-width: none;
-  flex-shrink: 0;
-}
-.persona-nav::-webkit-scrollbar { display: none; }
-.persona-btn {
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  border: 1.5px solid var(--border);
-  background: transparent;
-  color: var(--text-2);
-  white-space: nowrap;
-  transition: all 0.18s ease;
-  font-family: inherit;
-}
-.persona-btn:hover  { background: var(--green-100); border-color: var(--green-300); }
-.persona-btn.active { background: var(--green-700); color: #fff; border-color: var(--green-700); }
+  <!-- ═══════════════ CONSUMER ═══════════════ -->
+  <main class="screen" id="screen-consumer">
+    <div class="farmer-header" style="background:#1B5E20;padding-bottom:18px">
+      <div class="greeting">Farm-fresh, delivered to you 🥬</div>
+      <div class="name">Marketplace</div>
+    </div>
+    <div class="scroll-area">
+      <div class="search-bar">
+        <span>🔍</span>
+        <input type="search" placeholder="Search kales, tomatoes, maize..." />
+      </div>
+      <div class="cat-filter">
+        <div class="cat-chip active">All</div>
+        <div class="cat-chip">🥬 Vegetables</div>
+        <div class="cat-chip">🌽 Grains</div>
+        <div class="cat-chip">🍅 Fruits</div>
+        <div class="cat-chip">🧅 Roots</div>
+      </div>
+      <div style="padding:0 16px 8px;display:flex;justify-content:space-between;align-items:center">
+        <div class="section-title" style="padding:0">Featured Produce</div>
+        <div style="font-size:11px;color:var(--green-700);font-weight:600;cursor:pointer">See all →</div>
+      </div>
+      <div class="produce-grid">
+        <div class="produce-card">
+          <div class="produce-img teal">🥬</div>
+          <div class="produce-info">
+            <div class="produce-name">Sukuma Wiki</div>
+            <div class="produce-farm">Wanjiku Farm, Kiambu</div>
+            <div class="produce-price">KSh 45/kg</div>
+            <span class="produce-tag">🌿 Organic</span>
+          </div>
+        </div>
+        <div class="produce-card">
+          <div class="produce-img amber">🍅</div>
+          <div class="produce-info">
+            <div class="produce-name">Roma Tomatoes</div>
+            <div class="produce-farm">Mwangi Farm, Muranga</div>
+            <div class="produce-price">KSh 80/kg</div>
+            <span class="produce-tag">✓ Verified</span>
+          </div>
+        </div>
+        <div class="produce-card">
+          <div class="produce-img purple">🧅</div>
+          <div class="produce-info">
+            <div class="produce-name">Red Onions</div>
+            <div class="produce-farm">Kamau Farm, Nanyuki</div>
+            <div class="produce-price">KSh 60/kg</div>
+            <span class="produce-tag">🚜 Farm-to-Plate</span>
+          </div>
+        </div>
+        <div class="produce-card">
+          <div class="produce-img" style="background:#E8F5E9">🌽</div>
+          <div class="produce-info">
+            <div class="produce-name">Sweet Maize</div>
+            <div class="produce-farm">Achieng Farm, Kisumu</div>
+            <div class="produce-price">KSh 30/cob</div>
+            <span class="produce-tag">⭐ Top Rated</span>
+          </div>
+        </div>
+      </div>
+      <div class="mpesa-badge">
+        <div class="mpesa-icon">🔒</div>
+        <div>
+          <div class="mpesa-text">M-Pesa Escrow Protection</div>
+          <div class="mpesa-sub">Pay safely — released on delivery confirmation</div>
+        </div>
+        <div class="escrow-tag">Secure</div>
+      </div>
+      <div class="flow-section">
+        <div class="flow-title">Traceability — your last order</div>
+        <div class="flow-steps">
+          <span class="flow-step fs-green">Harvested Jun 3</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-blue">Packed Jun 4</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-orange">In transit</span>
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item active"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+      <div class="nav-item"><div class="nav-icon">🔍</div><div class="nav-label">Browse</div></div>
+      <div class="nav-item"><div class="nav-icon">🛒</div><div class="nav-label">Cart</div></div>
+      <div class="nav-item"><div class="nav-icon">📦</div><div class="nav-label">Orders</div></div>
+      <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">Me</div></div>
+    </nav>
+  </main>
 
-/* ─── SCREENS ────────────────────────────────────────────── */
-.screen       { display: none; flex-direction: column; flex: 1; min-height: 0; }
-.screen.active{ display: flex; }
+  <!-- ═══════════════ RIDER ═══════════════ -->
+  <main class="screen" id="screen-rider">
+    <div class="rider-header">
+      <div class="greeting">Ready for pickups?</div>
+      <div class="name">Brian Otieno — Rider</div>
+    </div>
+    <div class="scroll-area">
+      <div class="rider-stats">
+        <div class="rider-stat"><div class="val">12</div><div class="lbl">Jobs done</div></div>
+        <div class="rider-stat"><div class="val" style="color:var(--orange)">2</div><div class="lbl">Available</div></div>
+        <div class="rider-stat"><div class="val">KSh 3.2k</div><div class="lbl">Today</div></div>
+      </div>
+      <div class="section-title" style="margin-top:20px">Available Jobs</div>
+      <div class="cold-chain-alert">
+        <div class="cold-icon">🌡️</div>
+        <div>
+          <div class="cold-text">Cold Chain Alert</div>
+          <div class="cold-sub">Tomatoes (Order #487) — must deliver within 4 hrs</div>
+        </div>
+      </div>
+      <div class="job-card">
+        <div class="job-header">
+          <div>
+            <div style="font-size:14px;font-weight:700">Order #492 — Kale Bundle</div>
+            <div style="font-size:11px;color:var(--text-3)">Pickup: Wanjiku Farm, Kiambu</div>
+          </div>
+          <div class="job-distance">4.2 km</div>
+        </div>
+        <div class="job-route">
+          <div class="job-dot-from"></div><span>Kiambu Farm</span>
+          <span class="job-arrow">→</span>
+          <div class="job-dot-to"></div><span>Westlands, NBI</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-2);margin-bottom:10px">Expected payout: <strong style="color:var(--green-700)">KSh 280</strong></div>
+        <div class="job-actions">
+          <button class="btn-accept" onclick="switchPersona('delivery')">✓ Accept</button>
+          <button class="btn-reject">✕ Skip</button>
+        </div>
+      </div>
+      <div class="job-card">
+        <div class="job-header">
+          <div>
+            <div style="font-size:14px;font-weight:700">Order #488 — Mixed Veg</div>
+            <div style="font-size:11px;color:var(--text-3)">Pickup: Mwangi Farm, Muranga</div>
+          </div>
+          <div class="job-distance">8.7 km</div>
+        </div>
+        <div class="job-route">
+          <div class="job-dot-from"></div><span>Muranga</span>
+          <span class="job-arrow">→</span>
+          <div class="job-dot-to"></div><span>Karen, Nairobi</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-2);margin-bottom:10px">Expected payout: <strong style="color:var(--green-700)">KSh 520</strong></div>
+        <div class="job-actions">
+          <button class="btn-accept">✓ Accept</button>
+          <button class="btn-reject">✕ Skip</button>
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item active"><div class="nav-icon">🏠</div><div class="nav-label">Jobs</div></div>
+      <div class="nav-item"><div class="nav-icon">🗺️</div><div class="nav-label">Map</div></div>
+      <div class="nav-item"><div class="nav-icon">📱</div><div class="nav-label">Active</div></div>
+      <div class="nav-item"><div class="nav-icon">💳</div><div class="nav-label">Earnings</div></div>
+      <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">Profile</div></div>
+    </nav>
+  </main>
 
-.scroll-area {
-  overflow-y: auto;
-  flex: 1;
-  padding-bottom: 12px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--green-300) transparent;
-}
+  <!-- ═══════════════ AI DOCTOR ═══════════════ -->
+  <main class="screen" id="screen-aidoctor">
+    <div class="ai-header">
+      <div class="ai-title">🔬 AI Plant Doctor</div>
+      <div class="ai-sub">Point camera at affected leaves for instant diagnosis</div>
+    </div>
+    <div class="scroll-area">
+      <div class="camera-frame">
+        <div class="scan-line"></div>
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+        <div style="font-size:48px">🌿</div>
+        <div class="scan-hint">Scanning... align plant in frame</div>
+      </div>
+      <div class="diagnosis-card">
+        <div class="diag-header">
+          <div>
+            <div style="font-size:11px;color:var(--text-3);margin-bottom:2px">Last scan result</div>
+            <div class="diag-name">Early Blight — Alternaria solani</div>
+          </div>
+          <div class="confidence-badge">93% match</div>
+        </div>
+        <div class="diag-severity">
+          <div class="severity-dot"></div>
+          <span>Moderate severity · Maize crop detected</span>
+        </div>
+        <div style="font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:8px">Recommended Treatment:</div>
+        <div class="treatment-list">
+          <div class="treatment-item">Apply Mancozeb fungicide (2.5g/L) every 7 days</div>
+          <div class="treatment-item">Remove and destroy affected leaves immediately</div>
+          <div class="treatment-item">Improve air circulation — reduce plant density</div>
+          <div class="treatment-item">Avoid overhead irrigation, use drip instead</div>
+        </div>
+      </div>
+      <button class="cta-buy" onclick="switchPersona('consumer')">🛒 Buy Mancozeb in Marketplace →</button>
+      <div class="flow-section" style="margin-top:10px">
+        <div class="flow-title">Proactive alerts triggered</div>
+        <div class="flow-steps">
+          <span class="flow-step" style="background:var(--red-lt);color:var(--red)">Blight Detected</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-orange">Harvest Updated</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step fs-green">Price Adjusted</span>
+        </div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item" onclick="switchPersona('farmer')"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+      <div class="nav-item"><div class="nav-icon">🌱</div><div class="nav-label">My Farm</div></div>
+      <div class="nav-item active"><div class="nav-icon">🔬</div><div class="nav-label">AI Doctor</div></div>
+      <div class="nav-item" onclick="switchPersona('consumer')"><div class="nav-icon">🛒</div><div class="nav-label">Buy Input</div></div>
+      <div class="nav-item"><div class="nav-icon">👤</div><div class="nav-label">Profile</div></div>
+    </nav>
+  </main>
 
-/* ─── FARMER HEADER ──────────────────────────────────────── */
-.farmer-header {
-  background: var(--green-700);
-  padding: 20px 18px 28px;
-  color: #fff;
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-.farmer-header::before {
-  content: '';
-  position: absolute;
-  right: -30px; top: -30px;
-  width: 160px; height: 160px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.06);
-  pointer-events: none;
-}
-.farmer-header .greeting { font-size: 13px; opacity: 0.8; margin-bottom: 2px; }
-.farmer-header .name     { font-size: 20px; font-weight: 700; }
-.farmer-header .sub      { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+  <!-- ═══════════════ DELIVERY ═══════════════ -->
+  <main class="screen" id="screen-delivery">
+    <div class="farmer-header" style="background:var(--green-900);padding-bottom:18px">
+      <div class="greeting">Order #492 · Final Step</div>
+      <div class="name">Confirm Delivery</div>
+      <div class="sub">Scan QR or enter OTP to release payment</div>
+    </div>
+    <div class="scroll-area">
+      <div style="margin:14px 16px;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);padding:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--text-2);margin-bottom:12px">DELIVERY STATUS</div>
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div class="status-step"><div class="status-circle done">✓</div><div class="status-label">Confirmed</div></div>
+          <div class="status-line done"></div>
+          <div class="status-step"><div class="status-circle done">✓</div><div class="status-label">Picked up</div></div>
+          <div class="status-line active"></div>
+          <div class="status-step"><div class="status-circle active">📍</div><div class="status-label active-lbl">Delivering</div></div>
+          <div class="status-line"></div>
+          <div class="status-step"><div class="status-circle pending">🔒</div><div class="status-label pending-lbl">Delivered</div></div>
+        </div>
+      </div>
+      <div class="otp-section" id="otp-section">
+        <div class="otp-icon">🔐</div>
+        <div class="otp-title">Enter Delivery OTP</div>
+        <div class="otp-sub">Ask the customer for their 4-digit confirmation code</div>
+        <div class="otp-boxes">
+          <input class="otp-box" maxlength="1" type="tel" id="o1" oninput="moveOtp(this,'o2')" />
+          <input class="otp-box" maxlength="1" type="tel" id="o2" oninput="moveOtp(this,'o3')" />
+          <input class="otp-box" maxlength="1" type="tel" id="o3" oninput="moveOtp(this,'o4')" />
+          <input class="otp-box" maxlength="1" type="tel" id="o4" oninput="checkOtp()" />
+        </div>
+        <button class="otp-confirm" onclick="confirmDelivery()">Confirm &amp; Release Payment</button>
+      </div>
+      <div class="success-anim" id="success-section">
+        <div style="font-size:48px">✅</div>
+        <div class="success-title">Payment Released!</div>
+        <div class="success-sub">KSh 850 sent to farmer via M-Pesa escrow</div>
+        <div style="font-size:11px;color:var(--green-700);font-weight:600;margin-top:4px">Your cut: KSh 280 — credited now</div>
+      </div>
+      <div class="mpesa-badge" style="margin-top:10px">
+        <div class="mpesa-icon">📱</div>
+        <div>
+          <div class="mpesa-text">M-Pesa Escrow</div>
+          <div class="mpesa-sub">Funds held safely — released on OTP confirmation</div>
+        </div>
+        <div class="escrow-tag">Protected</div>
+      </div>
+    </div>
+    <nav class="bottom-nav">
+      <div class="nav-item" onclick="switchPersona('rider')"><div class="nav-icon">←</div><div class="nav-label">Jobs</div></div>
+      <div class="nav-item active"><div class="nav-icon">📦</div><div class="nav-label">Active</div></div>
+      <div class="nav-item"><div class="nav-icon">🗺️</div><div class="nav-label">Map</div></div>
+      <div class="nav-item"><div class="nav-icon">📞</div><div class="nav-label">Contact</div></div>
+      <div class="nav-item"><div class="nav-icon">💳</div><div class="nav-label">Pay</div></div>
+    </nav>
+  </main>
 
-/* ─── WEATHER WIDGET ─────────────────────────────────────── */
-.weather-widget {
-  margin: -16px 16px 0;
-  background: var(--surface);
-  border-radius: var(--radius);
-  padding: 14px 16px;
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  border: 1px solid var(--border);
+</div>
+<script>
+'use strict';
+const PERSONAS=['farmer','consumer','rider','aidoctor','delivery'];
+function switchPersona(p){
+  if(!PERSONAS.includes(p))return;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.persona-btn').forEach(b=>b.classList.remove('active'));
+  const screen=document.getElementById('screen-'+p);
+  const btn=document.querySelectorAll('.persona-btn')[PERSONAS.indexOf(p)];
+  if(screen)screen.classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(p==='delivery')resetDelivery();
+  const sa=screen&&screen.querySelector('.scroll-area');
+  if(sa)sa.scrollTop=0;
 }
-.weather-icon { font-size: 32px; }
-.weather-info { flex: 1; }
-.weather-temp { font-size: 22px; font-weight: 700; }
-.weather-desc { font-size: 12px; color: var(--text-2); }
-.weather-alert {
-  background: var(--orange-lt);
-  color: var(--orange);
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 20px;
+function moveOtp(el,nextId){
+  if(el.value.length===1&&nextId){const n=document.getElementById(nextId);if(n)n.focus();}
 }
-
-/* ─── SECTION TITLE ──────────────────────────────────────── */
-.section-title {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-2);
-  text-transform: uppercase;
-  letter-spacing: 0.7px;
-  padding: 16px 18px 8px;
+function checkOtp(){
+  const d=['o1','o2','o3','o4'].map(id=>{const e=document.getElementById(id);return e?e.value:'';});
+  if(d.every(x=>x.length===1))setTimeout(confirmDelivery,300);
 }
-
-/* ─── QUICK ACTIONS ──────────────────────────────────────── */
-.quick-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 0 16px;
+function confirmDelivery(){
+  const o=document.getElementById('otp-section');
+  const s=document.getElementById('success-section');
+  if(o)o.style.display='none';
+  if(s)s.classList.add('show');
 }
-.qa-btn {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  text-align: left;
-  font-family: inherit;
+function resetDelivery(){
+  const o=document.getElementById('otp-section');
+  const s=document.getElementById('success-section');
+  if(o)o.style.display='';
+  if(s)s.classList.remove('show');
+  ['o1','o2','o3','o4'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
 }
-.qa-btn:hover { background: var(--green-100); border-color: var(--green-300); transform: translateY(-1px); }
-.qa-btn.full  {
-  grid-column: 1 / -1;
-  flex-direction: row;
-  align-items: center;
-  background: var(--green-700);
-  color: #fff;
-  border-color: var(--green-700);
-}
-.qa-btn.full:hover { background: var(--green-900); border-color: var(--green-900); transform: translateY(-1px); }
-.qa-icon  { font-size: 22px; }
-.qa-label { font-size: 13px; font-weight: 600; color: var(--text-1); }
-.qa-btn.full .qa-label { color: #fff; }
-.qa-sub   { font-size: 11px; color: var(--text-3); }
-.qa-btn.full .qa-sub { color: rgba(255,255,255,0.75); }
-
-/* ─── TASK LIST ──────────────────────────────────────────── */
-.task-list { display: flex; flex-direction: column; gap: 8px; padding: 0 16px; }
-.task-card {
-  background: var(--surface);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  transition: box-shadow 0.15s;
-}
-.task-card:hover { box-shadow: var(--shadow); }
-.task-dot  { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.task-dot.green  { background: var(--green-500); }
-.task-dot.orange { background: var(--orange); }
-.task-dot.red    { background: var(--red); }
-.task-info  { flex: 1; }
-.task-title { font-size: 13px; font-weight: 600; }
-.task-sub   { font-size: 11px; color: var(--text-3); margin-top: 2px; }
-.task-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 10px; white-space: nowrap; }
-.badge-green  { background: var(--green-100); color: var(--green-700); }
-.badge-orange { background: var(--orange-lt); color: var(--orange); }
-.badge-red    { background: var(--red-lt);    color: var(--red); }
-
-/* ─── EARNINGS BAR ───────────────────────────────────────── */
-.earnings-bar {
-  margin: 12px 16px;
-  background: var(--green-900);
-  border-radius: var(--radius);
-  padding: 16px;
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.earnings-label  { font-size: 12px; opacity: 0.7; }
-.earnings-amount { font-size: 22px; font-weight: 700; }
-.earnings-change {
-  font-size: 12px;
-  background: rgba(165,214,167,0.2);
-  color: var(--green-300);
-  padding: 4px 10px;
-  border-radius: 10px;
-  font-weight: 600;
-}
-
-/* ─── FLOW SECTION ───────────────────────────────────────── */
-.flow-section {
-  background: var(--surface);
-  border-radius: var(--radius);
-  margin: 0 16px 10px;
-  padding: 14px;
-  border: 1px solid var(--border);
-}
-.flow-title { font-size: 12px; font-weight: 700; color: var(--text-2); margin-bottom: 10px; }
-.flow-steps { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
-.flow-step  { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
-.fs-green  { background: var(--green-100); color: var(--green-700); }
-.fs-orange { background: var(--orange-lt); color: var(--orange); }
-.fs-blue   { background: #E3F2FD; color: #1565C0; }
-.flow-arrow { font-size: 10px; color: var(--text-3); }
-
-/* ─── SEARCH BAR ─────────────────────────────────────────── */
-.search-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  border-radius: 30px;
-  padding: 10px 16px;
-  margin: 14px 16px 0;
-  transition: border-color 0.15s;
-}
-.search-bar:focus-within { border-color: var(--green-500); }
-.search-bar span  { font-size: 16px; }
-.search-bar input { border: none; outline: none; flex: 1; font-size: 13px; font-family: inherit; background: transparent; color: var(--text-1); }
-
-/* ─── CATEGORY FILTER ────────────────────────────────────── */
-.cat-filter {
-  display: flex;
-  gap: 8px;
-  padding: 12px 16px;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.cat-filter::-webkit-scrollbar { display: none; }
-.cat-chip {
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  white-space: nowrap;
-  background: var(--surface);
-  border: 1.5px solid var(--border);
-  color: var(--text-2);
-  cursor: pointer;
-  transition: all 0.15s;
-  user-select: none;
-}
-.cat-chip:hover, .cat-chip.active {
-  background: var(--green-100);
-  border-color: var(--green-500);
-  color: var(--green-700);
-}
-
-/* ─── PRODUCE GRID ───────────────────────────────────────── */
-.produce-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 0 16px;
-}
-.produce-card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  overflow: hidden;
-  transition: transform 0.15s, box-shadow 0.15s;
-  cursor: pointer;
-}
-.produce-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-.produce-img {
-  width: 100%;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-}
-.produce-img.teal   { background: #E0F2F1; }
-.produce-img.amber  { background: #FFF8E1; }
-.produce-img.purple { background: #EDE7F6; }
-.produce-info   { padding: 10px 12px; }
-.produce-name   { font-size: 13px; font-weight: 700; }
-.produce-farm   { font-size: 11px; color: var(--text-3); }
-.produce-price  { font-size: 14px; font-weight: 700; color: var(--green-700); margin-top: 4px; }
-.produce-tag    {
-  display: inline-block;
-  font-size: 9px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 8px;
-  background: var(--green-100);
-  color: var(--green-700);
-  margin-top: 4px;
-}
-
-/* ─── MPESA BADGE ────────────────────────────────────────── */
-.mpesa-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--green-100);
-  border: 1.5px solid var(--green-300);
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-  margin: 12px 16px 10px;
-}
-.mpesa-icon { font-size: 18px; }
-.mpesa-text { font-size: 12px; font-weight: 600; color: var(--green-700); }
-.mpesa-sub  { font-size: 10px; color: var(--text-3); }
-.escrow-tag {
-  margin-left: auto;
-  font-size: 10px;
-  font-weight: 700;
-  background: var(--green-700);
-  color: #fff;
-  padding: 4px 10px;
-  border-radius: 10px;
-}
-
-/* ─── RIDER ──────────────────────────────────────────────── */
-.rider-header { background: var(--green-900); padding: 20px 18px 24px; color: #fff; flex-shrink: 0; }
-.rider-header .greeting { font-size: 12px; opacity: 0.7; }
-.rider-header .name     { font-size: 20px; font-weight: 700; }
-
-.rider-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
-  margin: -14px 16px 0;
-}
-.rider-stat {
-  background: var(--surface);
-  border-radius: var(--radius-sm);
-  padding: 12px;
-  text-align: center;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--border);
-}
-.rider-stat .val { font-size: 16px; font-weight: 700; color: var(--green-700); }
-.rider-stat .lbl { font-size: 10px; color: var(--text-3); margin-top: 2px; }
-
-.cold-chain-alert {
-  margin: 12px 16px 10px;
-  background: var(--orange-lt);
-  border: 1.5px solid var(--orange);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.cold-icon { font-size: 20px; }
-.cold-text { font-size: 12px; font-weight: 600; color: var(--orange); }
-.cold-sub  { font-size: 11px; color: var(--text-2); }
-
-.job-card {
-  background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  margin: 0 16px 10px;
-  padding: 14px;
-  transition: box-shadow 0.15s;
-}
-.job-card:hover { box-shadow: var(--shadow); }
-.job-header   { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-.job-distance { font-size: 12px; font-weight: 700; color: var(--green-700); }
-.job-route    { display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--text-2); margin-bottom: 12px; flex-wrap: wrap; }
-.job-dot-from { width: 8px; height: 8px; border-radius: 50%; background: var(--green-500); flex-shrink: 0; }
-.job-dot-to   { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
-.job-arrow    { color: var(--text-3); }
-.job-actions  { display: flex; gap: 8px; }
-.btn-accept {
-  flex: 1; background: var(--green-700); color: #fff;
-  border: none; border-radius: 30px; padding: 10px;
-  font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
-  transition: background 0.15s;
-}
-.btn-accept:hover { background: var(--green-900); }
-.btn-reject {
-  flex: 1; background: transparent; color: var(--red);
-  border: 1.5px solid var(--red); border-radius: 30px; padding: 10px;
-  font-size: 13px; font-weight: 700; cursor: pointer; font-family: inherit;
-  transition: all 0.15s;
-}
-.btn-reject:hover { background: var(--red-lt); }
-
-/* ─── AI DOCTOR ──────────────────────────────────────────── */
-.ai-header {
-  background: var(--green-900);
-  padding: 20px 18px;
-  color: #fff;
-  flex-shrink: 0;
-}
-.ai-title { font-size: 18px; font-weight: 700; }
-.ai-sub   { font-size: 12px; opacity: 0.75; margin-top: 2px; }
-
-.camera-frame {
-  margin: 14px 16px;
-  background: #0d1f0e;
-  border-radius: var(--radius);
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  border: 2px solid var(--green-500);
-}
-.scan-line {
-  width: 80%;
-  height: 2px;
-  background: var(--green-500);
-  position: absolute;
-  animation: scan 2s ease-in-out infinite;
-  box-shadow: 0 0 6px var(--green-500);
-}
-@keyframes scan { 0%, 100% { top: 20%; } 50% { top: 80%; } }
-.corner { position: absolute; width: 20px; height: 20px; border-color: var(--green-300); border-style: solid; border-width: 0; }
-.corner.tl { top: 12px;    left: 12px;  border-top-width: 3px;    border-left-width: 3px; }
-.corner.tr { top: 12px;    right: 12px; border-top-width: 3px;    border-right-width: 3px; }
-.corner.bl { bottom: 12px; left: 12px;  border-bottom-width: 3px; border-left-width: 3px; }
-.corner.br { bottom: 12px; right: 12px; border-bottom-width: 3px; border-right-width: 3px; }
-.scan-hint { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 10px; }
-
-.diagnosis-card {
-  margin: 0 16px 12px;
-  background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  padding: 16px;
-}
-.diag-header     { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-.diag-name       { font-size: 15px; font-weight: 700; }
-.confidence-badge{ background: var(--green-100); color: var(--green-700); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
-.diag-severity   { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-2); margin-bottom: 12px; }
-.severity-dot    { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
-.treatment-list  { display: flex; flex-direction: column; gap: 6px; }
-.treatment-item  { display: flex; gap: 8px; font-size: 12px; color: var(--text-1); }
-.treatment-item::before { content: '→'; color: var(--green-500); font-weight: 700; flex-shrink: 0; }
-
-.cta-buy {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin: 0 16px;
-  width: calc(100% - 32px);
-  background: var(--orange);
-  color: #fff;
-  border: none;
-  border-radius: 30px;
-  padding: 14px;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.15s;
-}
-.cta-buy:hover { background: #E65100; }
-
-/* ─── DELIVERY / OTP ─────────────────────────────────────── */
-.status-step  { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-.status-circle{
-  width: 28px; height: 28px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700;
-}
-.status-circle.done    { background: var(--green-500); color: #fff; }
-.status-circle.active  { background: var(--orange); color: #fff; }
-.status-circle.pending { background: var(--bg); border: 2px solid var(--border); }
-.status-label     { font-size: 9px; font-weight: 600; color: var(--text-3); text-align: center; }
-.active-lbl  { color: var(--orange); }
-.pending-lbl { color: var(--text-3); }
-.status-line { flex: 1; height: 2px; background: var(--border); margin-bottom: 14px; }
-.status-line.done   { background: var(--green-300); }
-.status-line.active { background: var(--orange); }
-
-.otp-section {
-  padding: 20px 20px 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-.otp-icon  { font-size: 40px; }
-.otp-title { font-size: 18px; font-weight: 700; text-align: center; }
-.otp-sub   { font-size: 12px; color: var(--text-2); text-align: center; }
-.otp-boxes { display: flex; gap: 10px; }
-.otp-box {
-  width: 52px; height: 58px;
-  border-radius: 12px;
-  border: 2px solid var(--border);
-  background: var(--surface);
-  font-size: 22px; font-weight: 700;
-  text-align: center;
-  font-family: inherit;
-  color: var(--text-1);
-  transition: border-color 0.15s;
-}
-.otp-box:focus { border-color: var(--green-500); outline: none; box-shadow: 0 0 0 3px rgba(76,175,80,0.15); }
-.otp-confirm {
-  width: 100%;
-  background: var(--green-700);
-  color: #fff;
-  border: none;
-  border-radius: 30px;
-  padding: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-  transition: background 0.15s;
-}
-.otp-confirm:hover { background: var(--green-900); }
-
-.success-anim {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  background: var(--green-100);
-  border-radius: var(--radius);
-  padding: 24px 20px;
-  margin: 12px 16px;
-  text-align: center;
-  animation: fadeIn 0.4s ease;
-}
-.success-anim.show { display: flex; }
-@keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-.success-title { font-size: 17px; font-weight: 700; color: var(--green-700); }
-.success-sub   { font-size: 12px; color: var(--text-2); }
-
-/* ─── BOTTOM NAV ─────────────────────────────────────────── */
-.bottom-nav {
-  display: flex;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  padding: 8px 0 env(safe-area-inset-bottom, 12px);
-  flex-shrink: 0;
-}
-.nav-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  cursor: pointer;
-  padding: 4px 0;
-  transition: opacity 0.15s;
-}
-.nav-item:hover { opacity: 0.75; }
-.nav-icon  { font-size: 20px; transition: transform 0.15s; }
-.nav-label { font-size: 10px; font-weight: 600; color: var(--text-3); }
-.nav-item.active .nav-label { color: var(--green-700); }
-.nav-item.active .nav-icon  { transform: scale(1.1); }
-
-/* ─── RESPONSIVE ─────────────────────────────────────────── */
-@media (min-width: 520px) {
-  .app { border-left: 1px solid var(--border); border-right: 1px solid var(--border); min-height: 100vh; }
-}
-@media (max-width: 360px) {
-  .quick-actions { grid-template-columns: 1fr; }
-  .produce-grid  { grid-template-columns: 1fr; }
-  .rider-stats   { grid-template-columns: 1fr 1fr; }
-}
+document.querySelectorAll('.cat-chip').forEach(chip=>{
+  chip.addEventListener('click',function(){
+    this.closest('.cat-filter').querySelectorAll('.cat-chip').forEach(c=>c.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+document.querySelectorAll('.btn-reject').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    const card=this.closest('.job-card');
+    if(card){card.style.transition='opacity .3s,transform .3s';card.style.opacity='0';card.style.transform='translateX(40px)';setTimeout(()=>card.remove(),300);}
+  });
+});
+window.switchPersona=switchPersona;
+window.moveOtp=moveOtp;
+window.checkOtp=checkOtp;
+window.confirmDelivery=confirmDelivery;
+</script>
+</body>
+</html>
